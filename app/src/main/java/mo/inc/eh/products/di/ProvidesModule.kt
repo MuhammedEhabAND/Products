@@ -1,9 +1,14 @@
 package mo.inc.eh.products.di
 
+import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import mo.inc.eh.products.data.local.db.ProductsDao
+import mo.inc.eh.products.data.local.db.ProductsDatabase
 import mo.inc.eh.products.data.remote.ProductsService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,4 +33,21 @@ object ProvidesModule {
 
     }
 
+    @Provides
+    fun providesProductsDao(
+        database : ProductsDatabase
+    ) :ProductsDao {
+        return database.getProductsDao()
+    }
+    @Singleton
+    @Provides
+    fun providesProductsDatabase(
+        @ApplicationContext context: Context
+    ) : ProductsDatabase {
+        return  Room.databaseBuilder(
+            context ,
+            ProductsDatabase::class.java,
+            "products_db"
+        ).build()
+    }
 }

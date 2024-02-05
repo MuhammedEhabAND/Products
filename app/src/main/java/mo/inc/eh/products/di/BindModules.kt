@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import mo.inc.eh.products.data.local.LocalSource
+import mo.inc.eh.products.data.local.LocalSourceImp
 import mo.inc.eh.products.data.remote.RemoteSource
 import mo.inc.eh.products.data.remote.RemoteSourceImp
 import mo.inc.eh.products.data.repo.RepoImp
@@ -22,5 +24,10 @@ abstract  class BindModules {
     abstract fun bindRemoteSource(
         remoteSourceImp: RemoteSourceImp
     ): RemoteSource
+
+    @Binds
+    abstract fun bindLocalSource(
+        localSourceImp: LocalSourceImp
+    ): LocalSource
 
 }
