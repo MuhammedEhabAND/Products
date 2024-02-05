@@ -1,6 +1,6 @@
-import mo.inc.eh.products.domian.entity.Product
+package mo.inc.eh.products.data.model
 
 data class ProductResponseItem(
-    val product: Product,
-    val productMerchants: List<ProductMerchant>
+    val Product: Product,
+    val ProductMerchants: List<ProductMerchant>
 )

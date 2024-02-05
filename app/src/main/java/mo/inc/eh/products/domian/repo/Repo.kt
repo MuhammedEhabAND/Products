@@ -1,9 +1,10 @@
 package mo.inc.eh.products.domian.repo
 
 
-import ProductResponse
+
 import kotlinx.coroutines.flow.Flow
-import mo.inc.eh.products.domian.entity.Product
+import mo.inc.eh.products.data.model.Product
+import mo.inc.eh.products.data.model.ProductResponse
 
 interface Repo {
     fun getProducts () : Flow<ProductResponse>

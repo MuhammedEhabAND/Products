@@ -1,6 +1,8 @@
 package mo.inc.eh.products.data.remote
 
-import ProductResponse
+
+import mo.inc.eh.products.data.model.ProductResponse
+import mo.inc.eh.products.data.model.ProductResponseItem
 import retrofit2.http.GET
 
 interface ProductsService {
