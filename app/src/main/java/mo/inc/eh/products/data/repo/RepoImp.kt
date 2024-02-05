@@ -1,14 +1,16 @@
 package mo.inc.eh.products.data.repo
 
-import Product
 import ProductResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import mo.inc.eh.products.data.local.LocalSource
 import mo.inc.eh.products.data.remote.RemoteSource
+import mo.inc.eh.products.domian.entity.Product
 import mo.inc.eh.products.domian.repo.Repo
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RepoImp @Inject constructor(
     private val remoteSource: RemoteSource,
     private val localSource: LocalSource

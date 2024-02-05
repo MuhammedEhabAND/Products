@@ -1,6 +1,6 @@
 package mo.inc.eh.products.data.local
 
-import Product
+import mo.inc.eh.products.domian.entity.Product
 
 interface LocalSource {
     suspend fun getLocalProductsList(): List<Product>
