@@ -1,18 +1,15 @@
 package mo.inc.eh.products.presentation.screens.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,51 +27,37 @@ import mo.inc.eh.products.utils.UiState
 
 @Composable
 fun HomeScreen(
-    state: UiState<List<Product>>
+    state: UiState<List<Product>>,
 
-) {
+
+    ) {
     when (state) {
         is UiState.Failure -> ErrorState(state.error)
         UiState.Loading -> LoadingState()
-        is UiState.Success -> showData(state.data)
+        is UiState.Success -> ProductsList(state.data)
 
     }
 }
 
 @Composable
-fun showData(products: List<Product>) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn {
-            items(products) { product ->
-                ProductItem(product = product, onClick = {  })
+fun ProductsList(products: List<Product>) {
+    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+        items(products) { product ->
+            ProductCard(
+                productImageUrl = product.image_url,
+                productTitle = product.name,
+                productDescription = product.description
+            ) {
+
             }
+
         }
     }
+
+
 }
 
 
-@Composable
-fun ProductItem(product: Product, onClick: () -> Unit) {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        ProductCard(
-            productImageUrl = product.image_url,
-            productTitle = product.name,
-            productDescription = product.description,
-            modifier = Modifier.weight(1f)
-        ) {
-            onClick() // Handle click on first card
-        }
-        Spacer(modifier = Modifier.width(8.dp))
-        ProductCard(
-            productImageUrl = product.image_url,
-            productTitle = product.name,
-            productDescription = product.description,
-            modifier = Modifier.weight(1f)
-        ) {
-            onClick() // Handle click on second card
-        }
-    }
-}
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
