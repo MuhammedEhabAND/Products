@@ -28,14 +28,14 @@ class HomeViewModel @Inject constructor(
         get() =  _productsState.asStateFlow()
     init {
         getAllProducts()
-        updateLocalProducts()
-        getAllProductsLocally()
+
     }
 
     private fun getAllProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllProductsFromApiUseCase.invoke().catch {e->
                 _productsState.value = UiState.Failure(e.message.toString())
+                getAllProductsLocally()
             }.collectLatest{data ->
                 val allProducts :ArrayList<Product> = arrayListOf()
                 for(productResponseItem in data) {
@@ -43,6 +43,7 @@ class HomeViewModel @Inject constructor(
                     allProducts.add(product)
                 }
                 _productsState.value = UiState.Success(allProducts)
+                updateLocalProducts()
 
 
             }
