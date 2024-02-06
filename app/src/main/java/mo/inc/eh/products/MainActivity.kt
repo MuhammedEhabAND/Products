@@ -16,10 +16,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import mo.inc.eh.products.domian.entity.Product
 import mo.inc.eh.products.presentation.screens.details.DetailScreen
 import mo.inc.eh.products.presentation.screens.home.HomeScreen
 import mo.inc.eh.products.presentation.viewmodel.SharedViewModel
 import mo.inc.eh.products.ui.theme.ProductsTheme
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +71,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     ProductsTheme {
-        Greeting("Android")
+        val product = Product("this is the description of the product", "123" , "skafjaskfjkosa" ,"Product name " ,"200")
+
     }
 }

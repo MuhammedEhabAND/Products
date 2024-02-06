@@ -2,6 +2,7 @@ package mo.inc.eh.products.presentation.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,8 +16,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -51,7 +55,9 @@ fun ProductsList(products: List<Product>, navController: NavController, sharedVi
             ProductCard(
                 productImageUrl = product.image_url,
                 productTitle = product.name,
-                productDescription = product.description
+                productPrice = product.price,
+                productDescription = product.description,
+                modifier = Modifier
             ) {
                 sharedViewModel.selectProduct(product)
                 navController.navigate("details")
@@ -64,13 +70,13 @@ fun ProductsList(products: List<Product>, navController: NavController, sharedVi
 }
 
 
-
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ProductCard(
     productImageUrl: String,
     productTitle: String,
     productDescription: String,
+    productPrice:String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -89,17 +95,33 @@ fun ProductCard(
                     .aspectRatio(1f)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = productTitle,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            Row (
+                modifier = modifier
+            ){
+
+                Text(
+                    text = productTitle,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = TextStyle(fontWeight = FontWeight.Bold , fontSize = 18.sp),
+                    modifier = modifier.weight(1f)
+
+                )
+                Text(
+                    text = productPrice,
+                    style = TextStyle(fontWeight = FontWeight.Bold , fontSize = 18.sp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = modifier.weight(1f)
+                )
+            }
             Text(
                 text = productDescription,
-
+                style = TextStyle(fontWeight = FontWeight.Normal , fontSize = 14.sp),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+
         }
     }
 }
