@@ -2,7 +2,7 @@ package mo.inc.eh.products.domian.usecases
 
 import android.util.Log
 import kotlinx.coroutines.flow.collectLatest
-import mo.inc.eh.products.data.model.Product
+import mo.inc.eh.products.domian.entity.Product
 import mo.inc.eh.products.domian.repo.Repo
 import javax.inject.Inject
 
@@ -16,16 +16,8 @@ class UpdateLocalProductsUseCase @Inject constructor(
                 for (productResponseItem in responseItems) {
                     val product = productResponseItem.Product
                     Log.d("ProductResponses", "Received response items: $responseItems")
+                    products.add(product)
 
-                    // Null check:
-                    if (product != null) {
-                        products.add(product)
-                    } else {
-                        // Handle the case of a null product:
-                        Log.w("ProductError", "Received ProductResponseItem with null product: $productResponseItem")
-                        // Optionally, you might want to discard the entire response item:
-                        // continue
-                    }
                 }
             }
             Log.d("TAG", "invoke: $products")

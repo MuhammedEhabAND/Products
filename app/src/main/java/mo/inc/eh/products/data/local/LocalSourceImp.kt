@@ -1,7 +1,7 @@
 package mo.inc.eh.products.data.local
 
 import mo.inc.eh.products.data.local.db.ProductsDao
-import mo.inc.eh.products.data.model.Product
+import mo.inc.eh.products.domian.entity.Product
 import javax.inject.Inject
 
 class LocalSourceImp @Inject constructor(

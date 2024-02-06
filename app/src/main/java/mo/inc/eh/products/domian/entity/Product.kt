@@ -1,4 +1,4 @@
-package mo.inc.eh.products.data.model
+package mo.inc.eh.products.domian.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

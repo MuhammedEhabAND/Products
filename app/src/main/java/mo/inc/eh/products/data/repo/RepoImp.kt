@@ -4,9 +4,8 @@ package mo.inc.eh.products.data.repo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import mo.inc.eh.products.data.local.LocalSource
-import mo.inc.eh.products.data.model.Product
+import mo.inc.eh.products.domian.entity.Product
 import mo.inc.eh.products.data.model.ProductResponse
-import mo.inc.eh.products.data.model.ProductResponseItem
 import mo.inc.eh.products.data.remote.RemoteSource
 
 import mo.inc.eh.products.domian.repo.Repo

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import mo.inc.eh.products.data.model.Product
+import mo.inc.eh.products.domian.entity.Product
 import mo.inc.eh.products.domian.usecases.GetAllProductsFromApiUseCase
 import mo.inc.eh.products.domian.usecases.GetAllProductsFromDbUseCase
 import mo.inc.eh.products.domian.usecases.UpdateLocalProductsUseCase

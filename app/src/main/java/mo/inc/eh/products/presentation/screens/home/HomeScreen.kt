@@ -15,8 +15,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -24,7 +22,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import mo.inc.eh.products.R
-import mo.inc.eh.products.data.model.Product
+import mo.inc.eh.products.domian.entity.Product
 import mo.inc.eh.products.presentation.components.ErrorState
 import mo.inc.eh.products.presentation.components.LoadingState
 import mo.inc.eh.products.utils.UiState
@@ -46,7 +44,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun ProductsList(products: List<Product> ,navController: NavController , homeViewModel: HomeViewModel) {
+fun ProductsList(products: List<Product>, navController: NavController, homeViewModel: HomeViewModel) {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(products) { product ->
             ProductCard(
