@@ -38,72 +38,7 @@ import com.bumptech.glide.integration.compose.placeholder
 import mo.inc.eh.products.R
 
 
-@OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun CircularAvatarImage(
-    avatarUrl: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .clip(CircleShape), contentAlignment = Alignment.Center
-    ) {
-        GlideImage(
-            model = avatarUrl,
-            contentDescription = "Owner Avatar Image",
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop
-        )
-    }
-}
 
-@Composable
-fun LabeledIcon(
-    painter: Painter,
-    label: String,
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-    colorFilter: ColorFilter,
-    textStyle: TextStyle
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = painter,
-            contentDescription = contentDescription,
-            modifier = modifier,
-            colorFilter = colorFilter
-        )
-        Text(
-            text = label,
-            style = textStyle
-        )
-    }
-}
-
-@Composable
-fun RoundedCornerText(
-    text: String,
-    textStyle: TextStyle,
-    backgroundColor: Color,
-    textColor: Color = Color.Unspecified
-) {
-    Box(
-        Modifier
-            .padding(6.dp)
-            .clip(shape = RoundedCornerShape(20.dp))
-            .background(backgroundColor),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            color = textColor,
-            style = textStyle,
-            modifier = Modifier
-                .padding(vertical = 8.dp, horizontal = 10.dp)
-        )
-    }
-}
 
 @Composable
 fun LoadingState() {
@@ -133,15 +68,4 @@ fun ErrorState(message: String) {
     }
 }
 
-fun LazyListState.isReachedBottom(): Boolean {
-    val layoutInfo = layoutInfo
-    val visibleItemsInfo = layoutInfo.visibleItemsInfo
-    return if (layoutInfo.totalItemsCount == 0) {
-        false
-    } else {
-        val lastVisibleItem = visibleItemsInfo.last()
-        val viewportHeight = layoutInfo.viewportEndOffset + layoutInfo.viewportStartOffset
-        (lastVisibleItem.index + 1 == layoutInfo.totalItemsCount &&
-                lastVisibleItem.offset + lastVisibleItem.size <= viewportHeight)
-    }
-}
+
