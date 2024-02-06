@@ -23,12 +23,15 @@ class HomeViewModel @Inject constructor(
     private val getAllProductsFromDbUseCase: GetAllProductsFromDbUseCase,
     private val updateLocalProductsUseCase: UpdateLocalProductsUseCase
 ) :ViewModel(){
+    private val _productState : MutableStateFlow<UiState<Product>> = MutableStateFlow(UiState.Loading)
+    val productState : StateFlow<UiState<Product>>
+        get() =  _productState.asStateFlow()
     private val _productsState : MutableStateFlow<UiState<List<Product>>> = MutableStateFlow(UiState.Loading)
+
     val productsState : StateFlow<UiState<List<Product>>>
         get() =  _productsState.asStateFlow()
     init {
         getAllProducts()
-
     }
 
     private fun getAllProducts() {
@@ -47,6 +50,11 @@ class HomeViewModel @Inject constructor(
 
 
             }
+        }
+    }
+    fun selectProduct(product: Product){
+        viewModelScope.launch(Dispatchers.IO) {
+            _productState.value = UiState.Success(product)
         }
     }
     private fun updateLocalProducts(){

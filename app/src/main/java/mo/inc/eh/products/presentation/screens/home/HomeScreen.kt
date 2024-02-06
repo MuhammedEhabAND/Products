@@ -15,10 +15,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
+import mo.inc.eh.products.R
 import mo.inc.eh.products.data.model.Product
 import mo.inc.eh.products.presentation.components.ErrorState
 import mo.inc.eh.products.presentation.components.LoadingState
@@ -28,19 +33,20 @@ import mo.inc.eh.products.utils.UiState
 @Composable
 fun HomeScreen(
     state: UiState<List<Product>>,
-
+    navController: NavController,
+    homeViewModel: HomeViewModel
 
     ) {
     when (state) {
         is UiState.Failure -> ErrorState(state.error)
         UiState.Loading -> LoadingState()
-        is UiState.Success -> ProductsList(state.data)
+        is UiState.Success -> ProductsList(state.data , navController , homeViewModel )
 
     }
 }
 
 @Composable
-fun ProductsList(products: List<Product>) {
+fun ProductsList(products: List<Product> ,navController: NavController , homeViewModel: HomeViewModel) {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(products) { product ->
             ProductCard(
@@ -48,7 +54,8 @@ fun ProductsList(products: List<Product>) {
                 productTitle = product.name,
                 productDescription = product.description
             ) {
-
+                homeViewModel.selectProduct(product)
+                navController.navigate("details")
             }
 
         }
@@ -76,7 +83,8 @@ fun ProductCard(
         Column(modifier = Modifier.padding(16.dp)) {
             GlideImage(
                 model = productImageUrl,
-                contentDescription = null,
+                failure = placeholder(R.drawable.jetpack_compose_icon),
+                contentDescription = "ProductImage",
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
