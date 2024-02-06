@@ -1,5 +1,6 @@
 package mo.inc.eh.products.presentation.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -50,7 +52,7 @@ fun LoadingState() {
 @Composable
 fun ErrorState(message: String) {
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.lottie_error))
-
+    Toast.makeText(LocalContext.current  , message ,Toast.LENGTH_SHORT).show()
     Box(contentAlignment = Alignment.Center, modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)) {

@@ -21,54 +21,69 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
     private val getAllProductsFromApiUseCase: GetAllProductsFromApiUseCase,
     private val getAllProductsFromDbUseCase: GetAllProductsFromDbUseCase,
-    private val updateLocalProductsUseCase: UpdateLocalProductsUseCase
-) :ViewModel(){
-    private val _productState : MutableStateFlow<UiState<Product>> = MutableStateFlow(UiState.Loading)
-    val productState : StateFlow<UiState<Product>>
-        get() =  _productState.asStateFlow()
-    private val _productsState : MutableStateFlow<UiState<List<Product>>> = MutableStateFlow(UiState.Loading)
+    private val updateLocalProductsUseCase: UpdateLocalProductsUseCase,
+) : ViewModel() {
+    private val _productState: MutableStateFlow<UiState<Product>> =
+        MutableStateFlow(UiState.Loading)
+    val productState: StateFlow<UiState<Product>>
+        get() = _productState.asStateFlow()
+    private val _productsState: MutableStateFlow<UiState<List<Product>>> =
+        MutableStateFlow(UiState.Loading)
 
-    val productsState : StateFlow<UiState<List<Product>>>
-        get() =  _productsState.asStateFlow()
+    val productsState: StateFlow<UiState<List<Product>>>
+        get() = _productsState.asStateFlow()
+
     init {
         getAllProducts()
     }
 
     private fun getAllProducts() {
         viewModelScope.launch(Dispatchers.IO) {
-            getAllProductsFromApiUseCase.invoke().catch {e->
-                _productsState.value = UiState.Failure(e.message.toString())
+            getAllProductsFromApiUseCase.invoke().catch { e ->
+                _productsState.value =
+                    UiState.Failure(e.localizedMessage?.toString() ?: e.message.toString())
                 getAllProductsLocally()
-            }.collectLatest{data ->
-                val allProducts :ArrayList<Product> = arrayListOf()
-                for(productResponseItem in data) {
+            }.collectLatest { data ->
+                val allProducts: ArrayList<Product> = arrayListOf()
+                for (productResponseItem in data) {
                     val product: Product = productResponseItem.Product
                     allProducts.add(product)
                 }
-                _productsState.value = UiState.Success(allProducts)
-                updateLocalProducts()
-
+                if (allProducts.isEmpty()) {
+                    _productsState.value = UiState.Failure("There's no products right now !")
+                } else {
+                    _productsState.value = UiState.Success(allProducts)
+                    updateLocalProducts()
+                }
 
             }
         }
     }
-    fun selectProduct(product: Product){
+
+    fun selectProduct(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
             _productState.value = UiState.Success(product)
         }
     }
-    private fun updateLocalProducts(){
+
+    private fun updateLocalProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             updateLocalProductsUseCase.invoke()
 
         }
     }
-    private fun getAllProductsLocally(){
+
+    private fun getAllProductsLocally() {
         viewModelScope.launch(Dispatchers.IO) {
-            getAllProductsFromDbUseCase.invoke().catch {e->
-                _productsState.value = UiState.Failure(e.message.toString())
-            }.collectLatest {data->
-                _productsState.value = UiState.Success(data)
+            getAllProductsFromDbUseCase.invoke().catch { e ->
+                _productsState.value =
+                    UiState.Failure(e.localizedMessage?.toString() ?: e.message.toString())
+            }.collectLatest { data ->
+                if (data.isNotEmpty()) {
+                    _productsState.value = UiState.Success(data)
+                } else {
+                    _productsState.value = UiState.Failure("There's no products cashed before!")
+                }
             }
         }
     }
