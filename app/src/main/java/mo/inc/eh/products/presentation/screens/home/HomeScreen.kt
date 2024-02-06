@@ -25,6 +25,7 @@ import mo.inc.eh.products.R
 import mo.inc.eh.products.domian.entity.Product
 import mo.inc.eh.products.presentation.components.ErrorState
 import mo.inc.eh.products.presentation.components.LoadingState
+import mo.inc.eh.products.presentation.viewmodel.SharedViewModel
 import mo.inc.eh.products.utils.UiState
 
 
@@ -32,19 +33,19 @@ import mo.inc.eh.products.utils.UiState
 fun HomeScreen(
     state: UiState<List<Product>>,
     navController: NavController,
-    homeViewModel: HomeViewModel
+    sharedViewModel: SharedViewModel
 
     ) {
     when (state) {
         is UiState.Failure -> ErrorState(state.error)
         UiState.Loading -> LoadingState()
-        is UiState.Success -> ProductsList(state.data , navController , homeViewModel )
+        is UiState.Success -> ProductsList(state.data , navController , sharedViewModel )
 
     }
 }
 
 @Composable
-fun ProductsList(products: List<Product>, navController: NavController, homeViewModel: HomeViewModel) {
+fun ProductsList(products: List<Product>, navController: NavController, sharedViewModel: SharedViewModel) {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(products) { product ->
             ProductCard(
@@ -52,7 +53,7 @@ fun ProductsList(products: List<Product>, navController: NavController, homeView
                 productTitle = product.name,
                 productDescription = product.description
             ) {
-                homeViewModel.selectProduct(product)
+                sharedViewModel.selectProduct(product)
                 navController.navigate("details")
             }
 

@@ -1,4 +1,4 @@
-package mo.inc.eh.products.presentation.screens.home
+package mo.inc.eh.products.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +18,7 @@ import mo.inc.eh.products.utils.UiState
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class SharedViewModel @Inject constructor(
     private val getAllProductsFromApiUseCase: GetAllProductsFromApiUseCase,
     private val getAllProductsFromDbUseCase: GetAllProductsFromDbUseCase,
     private val updateLocalProductsUseCase: UpdateLocalProductsUseCase
