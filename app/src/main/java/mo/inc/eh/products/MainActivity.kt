@@ -50,7 +50,7 @@ private fun ProductsApp(){
         composable(route = "details") {
 
             val uiState = sharedViewModel.productState.collectAsStateWithLifecycle()
-            DetailScreen(state = uiState.value)
+            DetailScreen(state = uiState.value , navController = navController)
         }
 
 

@@ -1,5 +1,6 @@
 package mo.inc.eh.products.presentation.screens.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,9 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -37,35 +41,54 @@ import mo.inc.eh.products.utils.UiState
 fun HomeScreen(
     state: UiState<List<Product>>,
     navController: NavController,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
 
     ) {
     when (state) {
         is UiState.Failure -> ErrorState(state.error)
         UiState.Loading -> LoadingState()
-        is UiState.Success -> ProductsList(state.data , navController , sharedViewModel )
+        is UiState.Success -> ProductsList(state.data, navController, sharedViewModel)
 
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ProductsList(products: List<Product>, navController: NavController, sharedViewModel: SharedViewModel) {
-    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-        items(products) { product ->
-            ProductCard(
-                productImageUrl = product.image_url,
-                productTitle = product.name,
-                productPrice = product.price,
-                productDescription = product.description,
-                modifier = Modifier
-            ) {
-                sharedViewModel.selectProduct(product)
-                navController.navigate("details")
-            }
-
+fun ProductsList(
+    products: List<Product>,
+    navController: NavController,
+    sharedViewModel: SharedViewModel,
+) {
+    Scaffold(
+        topBar =
+        {
+            TopAppBar(
+                title = {
+                    Text(text = "Products")
+                },
+            )
         }
-    }
 
+    ) {
+
+        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+            items(products) { product ->
+                ProductCard(
+                    productImageUrl = product.image_url,
+                    productTitle = product.name,
+                    productPrice = product.price,
+                    productDescription = product.description,
+                    modifier = Modifier
+                ) {
+                    sharedViewModel.selectProduct(product)
+                    navController.navigate("details")
+                }
+
+            }
+        }
+
+    }
 
 }
 
@@ -76,7 +99,7 @@ fun ProductCard(
     productImageUrl: String,
     productTitle: String,
     productDescription: String,
-    productPrice:String,
+    productPrice: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -95,21 +118,21 @@ fun ProductCard(
                     .aspectRatio(1f)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Row (
+            Row(
                 modifier = modifier
-            ){
+            ) {
 
                 Text(
                     text = productTitle,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = TextStyle(fontWeight = FontWeight.Bold , fontSize = 18.sp),
+                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp),
                     modifier = modifier.weight(1f)
 
                 )
                 Text(
                     text = productPrice,
-                    style = TextStyle(fontWeight = FontWeight.Bold , fontSize = 18.sp),
+                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = modifier.weight(1f)
@@ -117,7 +140,7 @@ fun ProductCard(
             }
             Text(
                 text = productDescription,
-                style = TextStyle(fontWeight = FontWeight.Normal , fontSize = 14.sp),
+                style = TextStyle(fontWeight = FontWeight.Normal, fontSize = 14.sp),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
